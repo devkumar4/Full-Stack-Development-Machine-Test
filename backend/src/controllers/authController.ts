@@ -46,7 +46,7 @@ const AuthController = {
       });
     } catch (error) {
       console.error("Error during signup:", error);
-      res.status(500).json({ error: "Internal server error" });
+      res.status(500).json({ error: "Internal server errorrr" });
     }
   },
 
@@ -87,7 +87,7 @@ const AuthController = {
       res.status(200).json({ accessToken });
     } catch (error) {
       console.error("Error during signin:", error);
-      res.status(500).json({ error: "Internal server error" });
+      res.status(500).json({ error: "Internal server errorrr" });
     }
   },
 

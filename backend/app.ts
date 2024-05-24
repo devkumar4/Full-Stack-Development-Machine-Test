@@ -1,51 +1,28 @@
 // app.ts
 import express, { Application } from "express";
-// import mongoose from "mongoose";
 import cors from "cors";
 import bodyParser from "body-parser";
 import dotenv from "dotenv";
-// import userRoutes from "./src/routes/userRoutes";
-// import productRoutes from "./src/routes/productRoutes";
-// import authRoutes from "./src/routes/authRoutes";
-// import getUserProfile from "./src/routes/getUserProfile";
-// import Product from "./src/models/product";
-// import cookieParser from "cookie-parser";
-// import Products from "./data";
-
-// import orderRoutes from "./src/routes/orderRoutes";
+import mongoose from "mongoose";
+import process from "process";
+import userRoutes from "./src/routes/authroutes";
 
 dotenv.config();
 
 const app: Application = express();
-
-app.use(
-  cors({
-    origin: "http://localhost:3000",
-    credentials: true,
-    exposedHeaders: ["Content-Length", "Authorization", "Content-Type"],
-    allowedHeaders: ["Content-Type", "Authorization"],
-    methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
-  })
-);
-
+app.use(cors());
 app.use(bodyParser.json());
 
 // Connect to MongoDB
-// mongoose.connect(process.env.MONGO_URL || "", {}).then(async () => {
-//   console.log("Connected to MongoDB");
+mongoose
+  .connect(process.env.MONGO_URL || "", {})
+  .then(async () => {
+    console.log("Connected to MongoDB");
+  })
+  .catch((error) => {
+    console.error("Error connecting to MongoDB:", error);
+    process.exit(1);
+  });
 
-//   try {
-//     await Product.insertMany(Products);
-//     console.log("Sample products inserted successfully.");
-//   } catch (error) {
-//     console.error("Error inserting sample products:", error);
-//   } finally {
-//     mongoose.connection.close();
-//   }
-// })
-// .catch((error) => {
-//   console.error("Error connecting to MongoDB:", error);
-// proces.exit(1);
-// });
-
+app.use("/auth", userRoutes);
 export default app;
