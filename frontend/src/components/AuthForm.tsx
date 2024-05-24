@@ -1,4 +1,3 @@
-import React from "react";
 import { useForm } from "react-hook-form";
 import InputField from "./InputField";
 import Button from "./Button";
@@ -9,7 +8,7 @@ interface AuthFormProps {
   onSubmit: FormSubmitHandler;
 }
 
-const AuthForm: React.FC<AuthFormProps> = ({ formType, onSubmit }) => {
+const AuthForm = ({ formType, onSubmit }: AuthFormProps) => {
   const {
     register,
     handleSubmit,
@@ -57,7 +56,7 @@ const AuthForm: React.FC<AuthFormProps> = ({ formType, onSubmit }) => {
         <InputField
           label="Date of birth"
           type="date"
-          name="dob"
+          name="dateofbirth"
           register={register}
           errors={errors}
         />

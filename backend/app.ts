@@ -5,7 +5,8 @@ import bodyParser from "body-parser";
 import dotenv from "dotenv";
 import mongoose from "mongoose";
 import process from "process";
-import userRoutes from "./src/routes/authroutes";
+import authRoutes from "./src/routes/authroutes";
+import userRoutes from "./src/routes/userroutes";
 
 dotenv.config();
 
@@ -24,5 +25,7 @@ mongoose
     process.exit(1);
   });
 
-app.use("/auth", userRoutes);
+app.use("/auth", authRoutes);
+app.use("/user", userRoutes);
+
 export default app;

@@ -1,9 +1,14 @@
 import AuthPage from "./pages/AuthPage";
+import DashBoard from "./pages/DashBoard";
 
 function App() {
   return (
     <div className="flex justify-center">
-      <AuthPage formType="login" />
+      {!localStorage.getItem("__token__") ? (
+        <AuthPage formType="login" />
+      ) : (
+        <DashBoard />
+      )}
     </div>
   );
 }

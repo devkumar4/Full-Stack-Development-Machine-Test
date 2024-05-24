@@ -3,6 +3,9 @@ import User from "../models/user";
 import { generateTokens } from "../utils/authUtils";
 import bcrypt from "bcrypt";
 
+const DEFAULT_PROFILE_IMAGE_URL =
+  "https://www.example.com/default-profile-image.png";
+
 const AuthController = {
   signup: async (req: Request, res: Response) => {
     try {
@@ -10,15 +13,17 @@ const AuthController = {
         name,
         email,
         password,
+        dateofbirth,
         profileImage,
       }: {
         name: string;
         email: string;
         password: string;
-        profileImage: string;
+        profileImage?: string;
+        dateofbirth: string;
       } = req.body;
 
-      if (!name || !email || !password) {
+      if (!name || !email || !password || !dateofbirth) {
         return res.status(400).json({ error: "All fields are required." });
       }
 
@@ -29,12 +34,14 @@ const AuthController = {
 
       const hashedPassword: string = await bcrypt.hash(password, 12);
 
-      // Create a new user
+      const profileImageUrl = profileImage || DEFAULT_PROFILE_IMAGE_URL;
+
       const newUser = new User({
         name,
         email,
         password: hashedPassword,
-        profileImage,
+        profileImage: profileImageUrl,
+        dateofbirth,
       });
 
       await newUser.save();
@@ -46,25 +53,21 @@ const AuthController = {
       });
     } catch (error) {
       console.error("Error during signup:", error);
-      res.status(500).json({ error: "Internal server errorrr" });
+      res.status(500).json({ error: "Internal server error" });
     }
   },
 
   signin: async (req: Request, res: Response) => {
     try {
-      const {
-        name,
-        password,
-        email,
-      }: { name: string; password: string; email: number } = req.body;
+      const { email, password }: { email: string; password: string } = req.body;
 
-      if (!name || !password || !email) {
+      if (!email || !password) {
         return res.status(400).json({ error: "All fields are required." });
       }
 
       const existingUser = await User.findOne({ email });
       if (!existingUser) {
-        return res.status(400).json({ error: "User is not Autorized" });
+        return res.status(400).json({ error: "User not authorized." });
       }
 
       const isPasswordValid = await bcrypt.compare(
@@ -72,9 +75,7 @@ const AuthController = {
         existingUser.password
       );
       if (!isPasswordValid) {
-        return res
-          .status(400)
-          .json({ error: "Invalid firstName or password." });
+        return res.status(400).json({ error: "Invalid email or password." });
       }
 
       const { accessToken } = generateTokens(existingUser);
@@ -87,7 +88,7 @@ const AuthController = {
       res.status(200).json({ accessToken });
     } catch (error) {
       console.error("Error during signin:", error);
-      res.status(500).json({ error: "Internal server errorrr" });
+      res.status(500).json({ error: "Internal server error" });
     }
   },
 

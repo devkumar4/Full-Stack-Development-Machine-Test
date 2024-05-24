@@ -1,9 +1,9 @@
 export interface FormData {
   name: string;
   email: string;
-  dob: string;
+  dateofbirth: string;
   password: string;
-  confirmPassword?: string;
+  profileImage: string;
 }
 
 export type FormSubmitHandler = (data: FormData) => void;
