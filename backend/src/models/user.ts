@@ -1,10 +1,11 @@
 import { timeStamp } from "console";
-import mongoose, { Document, Schema } from "mongoose";
+import mongoose, { Date, Document, Schema } from "mongoose";
 
 export interface IUser extends Document {
   email?: string;
   password: string;
   name: string;
+  dateofbirth: Date;
   profileImage: string;
 }
 
@@ -17,9 +18,16 @@ const userSchema = new Schema({
     type: String,
     required: true,
   },
+  dateofbirth: {
+    type: Date,
+    required: true,
+  },
   name: {
     type: String,
     required: true,
+  },
+  profilePic: {
+    type: String,
   },
 });
 
