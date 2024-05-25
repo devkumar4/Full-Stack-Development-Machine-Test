@@ -13,9 +13,9 @@ const AvatarDialog: React.FC<AvatarDialogProps> = ({
   setImage,
 }) => {
   const avatars = [
-    "https://via.placeholder.com/150/0000FF/808080?text=Avatar+1",
-    "https://via.placeholder.com/150/FF0000/FFFFFF?text=Avatar+2",
-    "https://via.placeholder.com/150/00FF00/000000?text=Avatar+3",
+    "https://img.freepik.com/free-photo/3d-rendering-boy-wearing-cap-with-letter-r_1142-40523.jpg?size=338&ext=jpg&ga=GA1.1.44546679.1716595200&semt=ais_user",
+    "https://img.freepik.com/free-photo/3d-rendering-boy-baseball-cap-gray-background_1142-51796.jpg",
+    "https://img.freepik.com/premium-photo/cute-girl-3d-character-design-cartoon-girl-avatar_432516-5513.jpg",
   ];
 
   return (
@@ -32,7 +32,7 @@ const AvatarDialog: React.FC<AvatarDialogProps> = ({
                   key={index}
                   src={avatar}
                   alt={`Avatar ${index + 1}`}
-                  className="w-24 h-24 rounded-full cursor-pointer transition transform hover:scale-110 hover:opacity-80"
+                  className="w-24 h-24 rounded-full cursor-pointer transition transform hover:scale-110 hover:opacity-80 m-10"
                   onClick={() => {
                     setImage(avatar);
                     localStorage.setItem("profile", avatar);

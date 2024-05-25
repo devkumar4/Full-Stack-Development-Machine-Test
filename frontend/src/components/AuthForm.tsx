@@ -37,7 +37,7 @@ const AuthForm: React.FC<AuthFormProps> = ({ formType, onSubmit }) => {
       onSubmit(formDatawithImage);
       if (formType === "signup") {
         return router("/login");
-      } else {
+      } else if (formType === "login") {
         return router("/");
       }
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -103,7 +103,7 @@ const AuthForm: React.FC<AuthFormProps> = ({ formType, onSubmit }) => {
                 >
                   {UserProfileImage ? (
                     <img
-                      src={profileImage}
+                      src={UserProfileImage}
                       alt="Profile"
                       className="w-full h-full rounded-full"
                     />
