@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import { useUserDetail } from "../hooks/useUserDetail";
 
 function DashBoard() {
