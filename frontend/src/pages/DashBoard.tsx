@@ -21,6 +21,7 @@ function DashBoard() {
 
   const handleLogout = () => {
     localStorage.removeItem("__token__");
+    localStorage.removeItem("profile");
     window.location.reload();
   };
   return (
@@ -42,7 +43,7 @@ function DashBoard() {
               <td className="px-4 py-2">
                 {user && user.profileImage && (
                   <img
-                    src={user.profileImage}
+                    src={user?.profileImage}
                     className="rounded-full w-20 h-20"
                     alt="Profile"
                   />
@@ -63,6 +64,7 @@ function DashBoard() {
         </tbody>
       </table>
 
+      {/*PAGINATION IS NOT WORKED YET */}
       <div className="flex justify-center mt-">
         <button className="px-4 py-2 bg-gray-200 hover:bg-gray-300 text-gray-800 font-bold rounded-l">
           Prev

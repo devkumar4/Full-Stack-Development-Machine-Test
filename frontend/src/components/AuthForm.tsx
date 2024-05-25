@@ -5,7 +5,7 @@ import { FormData, FormSubmitHandler } from "../types";
 import { GoPlus } from "react-icons/go";
 import AvatarDialog from "./AvatarDialog";
 import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 
@@ -24,7 +24,7 @@ const schema = z.object({
 const AuthForm: React.FC<AuthFormProps> = ({ formType, onSubmit }) => {
   const [modalVisible, setModalVisible] = useState<boolean>(false);
   const [profileImage, setProfileImage] = useState<string>("");
-  const router = useNavigate();
+
   const {
     register,
     handleSubmit,
@@ -35,11 +35,7 @@ const AuthForm: React.FC<AuthFormProps> = ({ formType, onSubmit }) => {
     try {
       const formDatawithImage = { ...data, profileImage };
       onSubmit(formDatawithImage);
-      if (formType === "signup") {
-        return router("/login");
-      } else if (formType === "login") {
-        return router("/");
-      }
+
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
       throw new Error(error);
@@ -65,7 +61,11 @@ const AuthForm: React.FC<AuthFormProps> = ({ formType, onSubmit }) => {
         />
       ) : (
         <div className="flex justify-center items-center min-h-screen bg-gradient-to-r from-teal-400 to-blue-500 w-full relative">
-          <div className="absolute top-1 z-10 text-center bg-teal-500 px-8 py-4">
+          <div
+            className={`absolute ${
+              formType == "login" ? "top-[70px]" : "top-2"
+            } z-10 text-center bg-teal-500 px-8 py-4`}
+          >
             <h2 className="text-2xl font-bold text-white">
               {formType === "login" ? "Login" : "Signup"}
             </h2>
@@ -116,15 +116,16 @@ const AuthForm: React.FC<AuthFormProps> = ({ formType, onSubmit }) => {
                 </div>
               </div>
             )}
-
-            <InputField
-              label="Name"
-              type="text"
-              name="name"
-              register={register}
-              errors={errors}
-              placeHolder="John"
-            />
+            {formType == "login" ? null : (
+              <InputField
+                label="Name"
+                type="text"
+                name="name"
+                register={register}
+                errors={errors}
+                placeHolder="John"
+              />
+            )}
 
             <InputField
               label="Email"
@@ -134,14 +135,15 @@ const AuthForm: React.FC<AuthFormProps> = ({ formType, onSubmit }) => {
               placeHolder="abc@gmail.com"
               errors={errors}
             />
-
-            <InputField
-              label="Date of birth"
-              type="date"
-              name="dateofbirth"
-              register={register}
-              errors={errors}
-            />
+            {formType == "login" ? null : (
+              <InputField
+                label="Date of birth"
+                type="date"
+                name="dateofbirth"
+                register={register}
+                errors={errors}
+              />
+            )}
 
             <InputField
               label="Password"

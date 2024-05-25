@@ -1,12 +1,7 @@
 import jwt from "jsonwebtoken";
 import { Request, Response, NextFunction } from "express";
 import User from "../models/user";
-
-// Define the shape of the JWT payload
-interface JwtPayload {
-  userId: string;
-  name: string;
-}
+import { JwtPayload } from "../types";
 
 export const verifyTokenMiddleware = async (
   req: Request,

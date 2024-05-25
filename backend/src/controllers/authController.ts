@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import User from "../models/user";
 import { generateTokens } from "../utils/authUtils";
 import bcrypt from "bcrypt";
+import { UserData } from "../types";
 
 const DEFAULT_PROFILE_IMAGE_URL =
   "https://www.example.com/default-profile-image.png";
@@ -9,19 +10,8 @@ const DEFAULT_PROFILE_IMAGE_URL =
 const AuthController = {
   signup: async (req: Request, res: Response) => {
     try {
-      const {
-        name,
-        email,
-        password,
-        dateofbirth,
-        profileImage,
-      }: {
-        name: string;
-        email: string;
-        password: string;
-        profileImage?: string;
-        dateofbirth: string;
-      } = req.body;
+      const { name, email, password, dateofbirth, profileImage }: UserData =
+        req.body;
 
       if (!name || !email || !password || !dateofbirth) {
         return res.status(400).json({ error: "All fields are required." });
@@ -88,17 +78,6 @@ const AuthController = {
       res.status(200).json({ accessToken });
     } catch (error) {
       console.error("Error during signin:", error);
-      res.status(500).json({ error: "Internal server error" });
-    }
-  },
-
-  logout: async (req: Request, res: Response) => {
-    try {
-      res.clearCookie("accessToken", { httpOnly: true, secure: true });
-      res.clearCookie("refreshToken", { httpOnly: true, secure: true });
-      res.status(204).send();
-    } catch (error) {
-      console.error("Error during logout:", error);
       res.status(500).json({ error: "Internal server error" });
     }
   },
