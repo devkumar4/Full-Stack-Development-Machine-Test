@@ -22,12 +22,12 @@ export function useAuth() {
       setUser(res.data);
       const token = res.data.accessToken;
       if (endpoint === "login") {
+        localStorage.setItem("__token__", token);
         return router("/");
       }
       if (endpoint === "signup") {
         return router("/login");
       }
-      if (endpoint == "login") localStorage.setItem("__token__", token);
     } catch (err) {
       if (axios.isAxiosError(err)) {
         setError(err.response?.data?.message || err.message);
